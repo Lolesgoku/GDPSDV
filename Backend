@@ -1,0 +1,28 @@
+// bot-monitor.js
+const express = require('express');
+const app = express();
+const { Client } = require('discord.js');
+const client = new Client();
+
+client.once('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
+// Iniciar sesión en el bot
+client.login('MTI4OTM1MDMxMzQyMTA0NTg1NA.GxO8VY.qvmvWKoxeU8H8Htdug20JCgLYkvzHc2K94zeww');
+
+// Endpoint para obtener el estado del bot
+app.get('/status', (req, res) => {
+  const status = {
+    botName: client.user.username,
+    isOnline: client.uptime !== null,
+    servers: client.guilds.cache.size,
+    users: client.users.cache.size
+  };
+  res.json(status);
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
