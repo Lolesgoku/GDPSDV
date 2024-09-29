@@ -1,0 +1,34 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot Monitor</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .status { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Discord Bot Monitor</h1>
+  <div class="status">
+    <p><strong>Bot Name:</strong> <span id="botName">Loading...</span></p>
+    <p><strong>Status:</strong> <span id="status">Loading...</span></p>
+    <p><strong>Servers:</strong> <span id="servers">Loading...</span></p>
+    <p><strong>Users:</strong> <span id="users">Loading...</span></p>
+  </div>
+  <script>
+    async function getBotStatus() {
+      const response = await fetch('/status');
+      const data = await response.json();
+      document.getElementById('botName').textContent = data.botName;
+      document.getElementById('status').textContent = data.isOnline ? 'Online' : 'Offline';
+      document.getElementById('servers').textContent = data.servers;
+      document.getElementById('users').textContent = data.users;
+    }
+    getBotStatus();
+    setInterval(getBotStatus, 5000);  // Actualizar cada 5 segundos
+  </script>
+</body>
+</html>
